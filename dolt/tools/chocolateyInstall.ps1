@@ -9,7 +9,7 @@ $packageArgs = @{
   checksumType   = ''
   url            = 'https://github.com/dolthub/dolt/releases/download/v0.24.2/dolt-windows-amd64.msi'
 
-  silentArgs     = ''
+  silentArgs     = '/quiet'
   validExitCodes = @(0)
 }
 
