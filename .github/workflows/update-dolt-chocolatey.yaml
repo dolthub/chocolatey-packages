@@ -36,6 +36,7 @@ jobs:
         run: |
          choco install dolt.${{ github.event.inputs.version }}.nupkg -s .
          refreshenv
+         choco list
       - name: Dolt Version
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
