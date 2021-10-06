@@ -20,15 +20,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install AU
         run: cinst au
-      - name: Install choco
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-          choco outdated
       - name: Build Package
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
-        run: |
-          ./update.ps1
+        run: ./update.ps1
         env:
           au_Push: 'false'
           api_key: ${{ secrets.CHOCO_API_KEY }}
@@ -38,9 +33,16 @@ jobs:
       - name: Test Package Installer
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
-        run: |
-          ls .
-          choco install dolt -s .
+        run: choco install dolt -s .
+      - name: Dolt Version
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        working-directory: ./dolt
+        run: dolt version
+      - name: Test Package Uninstaller
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        working-directory: ./dolt
+        run: choco uninstall dolt
+        
       # - name: Test Package Uninstaller
       #   if: ${{ github.event_name == 'workflow_dispatch' }}
       #   working-directory: ./dolt
