@@ -40,7 +40,6 @@ jobs:
         working-directory: ./dolt
         run: |
           ls .
-          ls ../chocolatey/dolt
           choco install dolt -s .
       # - name: Test Package Uninstaller
       #   if: ${{ github.event_name == 'workflow_dispatch' }}
