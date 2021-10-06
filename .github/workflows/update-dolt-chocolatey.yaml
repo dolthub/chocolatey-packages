@@ -24,7 +24,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
         run: |
-          ./update.ps1
+          $Env:au_Push='true'; ./update.ps1
         env:
           api_key: ${{ secrets.CHOCO_API_KEY }}
           github_api_key: ${{ secrets.REPO_ACCESS_TOKEN }}
