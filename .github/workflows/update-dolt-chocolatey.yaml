@@ -39,12 +39,14 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
         run: |
-          Test-Package -Install
-      - name: Test Package Uninstaller
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        working-directory: ./dolt
-        run: |
-          Test-Package -Uninstall
+          ls -a
+          ls ../chocolatey/dolt
+          choco install dolt -s .
+      # - name: Test Package Uninstaller
+      #   if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   working-directory: ./dolt
+      #   run: |
+      #     Test-Package -Uninstall
 
       # - name: Changes detected
       #   id: detect-changes

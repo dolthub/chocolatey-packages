@@ -10,7 +10,7 @@ if ($key.Count -eq 1) {
     $packageArgs = @{
       packageName    = $packageName
       fileType       = 'MSI'
-      silentArgs     = ''
+      silentArgs     = '/quiet'
       validExitCodes = @(0)
       file           = "$($_.UninstallString.Trim('"'))"
     }
