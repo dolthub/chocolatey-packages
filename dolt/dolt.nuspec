@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>dolt</id>
+    <version>0.24.1</version>
+    <title>Dolt 0.24.1</title>
+    <owners>chocolatey</owners>
+    <authors>DoltHub</authors>
+    <licenseUrl>https://github.com/dolthub/dolt/blob/main/LICENSE</licenseUrl>
+    <projectUrl>https://www.dolthub.com</projectUrl>
+    <projectSourceUrl>https://github.com/dolthub/dolt</projectSourceUrl>
+    <docsUrl>https://docs.dolthub.com/</docsUrl>
+    <mailingListUrl>https://discord.com/invite/RFwfYpu</mailingListUrl>
+    <bugTrackerUrl>https://github.com/dolthub/dolt/issues</bugTrackerUrl>
+    <iconUrl>https://ghcdn.rawgit.org/dolthub/dolt/main/docs/dolt_logo.svg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+Dolt is the true Git for data experience in a SQL database, providing version control for schema and cell-wise for data, all optimized for collaboration.
+    </description>
+    <summary>Git for Data</summary>
+    <releaseNotes>https://github.com/dolthub/dolt/releases/tag/v0.24.1</releaseNotes>
+    <copyright />
+    <tags>dolt git sql database db version control</tags>
+    <packageSourceUrl>https://community.chocolatey.org/packages/dolt</packageSourceUrl>
+    <dependencies>
+      <dependency id="chocolatey-core.extension" version="1.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
