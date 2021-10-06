@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Create Winget PR
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        working_directory: ./dolt
+        working-directory: ./dolt
         run: |
           ./update.ps1
         env:
