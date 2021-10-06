@@ -18,6 +18,8 @@ jobs:
         shell: powershell
     steps:
       - uses: actions/checkout@v2
+      - name: Install AU
+        run: Install-Module -Name AU
       - name: Push to Chocolatey
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
