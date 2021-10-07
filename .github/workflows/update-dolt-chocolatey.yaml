@@ -10,7 +10,8 @@ on:
     types: [ bump-choco ]
 
 jobs:
-  winget-bump:
+  winget-bump-wd:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     name: Bump Dolt Chocolately
     runs-on: windows-2019
     defaults:
@@ -21,49 +22,63 @@ jobs:
       - name: Install AU
         run: cinst au
       - name: Build Package
-        if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
         run: |
           ./update.ps1
         env:
           au_Push: 'false'
-          api_key: ${{ secrets.CHOCO_API_KEY }}
-          github_api_key: ${{ secrets.REPO_ACCESS_TOKEN }}
-          github_user_repo: "dolthub/dolt"
           VERSION: ${{ github.event.inputs.version }}
       - name: Test Package Installer
-        if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
         run: Test-Package $Install
       - name: Dolt Version
-        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           refreshenv
           $env:Path += ';C:\Program Files\Dolt\bin\'
           & 'C:\Program Files\Dolt\bin\dolt.exe' version
           dolt version
-
-      # - name: Changes detected
-      #   id: detect-changes
-      #   run: |
-      #     changes=$(git status --porcelain)
-      #     if [ ! -z "$changes" ]; then
-      #        echo "::set-output name=has-changes::true"
-      #     fi
-
-      # - uses: EndBug/add-and-commit@v7
-      #   # if: ${{ steps.detect-changes.outputs.has-changes == 'true' }}
-      #   with:
-      #     message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.inputs.version }}"
-      #     add: "."
-      #     cwd: "."
-
-      # - name: Create Winget PR
-      #   if: ${{ github.event_name == 'repository_dispatch' }}
-      #   run: |
-      #     iwr https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
-      #     .\wingetcreate.exe update DoltHub.Dolt -u $Env:URL -v $Env:VERSION -t $Env:TOKEN --submit
-      #   env:
-      #     TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-      #     VERSION: ${{ github.event.client_payload.version }}
-      #     URL: ${{ format('https://github.com/dolthub/dolt/releases/download/{0}/dolt-windows-amd64.msi', github.event.client_payload.version) }}
+      - uses: EndBug/add-and-commit@v7
+        with:
+          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.inputs.version }}"
+          add: "."
+          cwd: "."
+      - name: Push Package to Chocolatey
+        run: Push-Package
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
+  winget-bump-rd:
+    if: ${{ github.event_name == 'repository_dispatch' }}
+    name: Bump Dolt Chocolately
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install AU
+        run: cinst au
+      - name: Build Package
+        working-directory: ./dolt
+        run: |
+          ./update.ps1
+        env:
+          au_Push: 'false'
+          VERSION: ${{ github.event.client_payload.version }}
+      - name: Test Package Installer
+        working-directory: ./dolt
+        run: Test-Package $Install
+      - name: Dolt Version
+        run: |
+          refreshenv
+          $env:Path += ';C:\Program Files\Dolt\bin\'
+          & 'C:\Program Files\Dolt\bin\dolt.exe' version
+          dolt version
+      - uses: EndBug/add-and-commit@v7
+        with:
+          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.client_payload.version }}"
+          add: "."
+          cwd: "."
+      - name: Push Package to Chocolatey
+        run: Push-Package
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
