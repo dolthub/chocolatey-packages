@@ -39,10 +39,9 @@ jobs:
          refreshenv
          choco list -l -exact dolt
          ls C:\ProgramData\chocolatey\lib
-#       - name: Dolt Version
-#         if: ${{ github.event_name == 'workflow_dispatch' }}
-#         working-directory: ./dolt
-#         run: 
+      - name: Dolt Version
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: ./C:\ProgramData\chocolatey\lib\dolt version
       - name: Test Package Uninstaller
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
