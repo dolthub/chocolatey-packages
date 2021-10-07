@@ -38,8 +38,9 @@ jobs:
          choco install dolt -s .
          refreshenv
          choco list -l -exact dolt
-         ls C:\ProgramData\chocolatey\lib
-         .\C:\ProgramData\chocolatey\lib\dolt version
+         $env:Path
+         ls C:\ProgramData\chocolatey\bin
+         .\C:\ProgramData\chocolatey\bin\dolt version
       - name: Dolt Version
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: C:\ProgramData\chocolatey\lib\dolt version
