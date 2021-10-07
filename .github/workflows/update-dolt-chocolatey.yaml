@@ -38,6 +38,7 @@ jobs:
          choco install dolt -s .
          refreshenv
          choco list -l
+         choco info dolt
       - name: Dolt Version
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
