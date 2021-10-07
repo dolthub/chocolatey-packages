@@ -38,7 +38,8 @@ jobs:
          choco install dolt -s .
          refreshenv
          choco list -l
-         choco info dolt
+         ls C:\ProgramData\Chocolatey
+         choco info -l dolt
       - name: Dolt Version
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
