@@ -39,6 +39,10 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           refreshenv
+          ls 'C:\Program Files (x86)\'
+          ls 'C:\Program Files\'
+          ls 'C:\Program Files\Dolt\bin\'
+          ls 'C:\Program Files (x86)\Dolt\bin'
           $env:Path += 'C:\Program Files\Dolt\bin\;'
           dolt version
 
