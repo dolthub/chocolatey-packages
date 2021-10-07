@@ -44,7 +44,8 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
         run: |
-          ls .
+          ls C:\ProgramData\Chocolatey\bin
+          ls C:\Program Files (x86)
       - name: Test Package Uninstaller
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
