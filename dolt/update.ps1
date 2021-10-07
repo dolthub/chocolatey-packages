@@ -11,9 +11,10 @@ function global:au_SearchReplace {
       "(?i)(^\s*checksum\s*=\s*)('.*')"   = "`$1'$($Latest.Checksum64)'"
       "(?i)(^\s*checksumType\s*=\s*)('.*')" = "`$1'$($Latest.ChecksumType64)'"
     }
-    # ".\dolt.nuspec" = @{
-    #   "\<releaseNotes\>.+" = "<releaseNotes>$($Latest.ReleaseNotes)</releaseNotes>"
-    # }
+    ".\dolt.nuspec" = @{
+      "\<title\>.+" = "<title>$($Latest.Title)</title>"
+      "\<releaseNotes\>.+" = "<releaseNotes>$($Latest.ReleaseNotes)</releaseNotes>"
+    }
   }
 }
 
@@ -23,11 +24,13 @@ function global:au_GetLatest {
 
   $re    = '\.msi$'
   $url   = $download_page.links | ? href -match $re | select -First 1 -expand href
+  $title = "Dolt " + $version
 
   @{
     URL64 = $domain + $url
     Version = $version
     ReleaseNotes = $releases
+    Title = $title
   }
 }
 

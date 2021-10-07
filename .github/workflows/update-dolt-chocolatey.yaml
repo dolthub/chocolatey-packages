@@ -23,7 +23,8 @@ jobs:
       - name: Build Package
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
-        run: ./update.ps1
+        run: |
+          ./update.ps1
         env:
           au_Push: 'false'
           api_key: ${{ secrets.CHOCO_API_KEY }}
@@ -33,22 +34,14 @@ jobs:
       - name: Test Package Installer
         if: ${{ github.event_name == 'workflow_dispatch' }}
         working-directory: ./dolt
-        run: |
-         cat dolt.nuspec
-         choco install dolt -s .
-         refreshenv
-         choco list -l -exact dolt
-         $env:Path
-         ls C:\ProgramData\chocolatey\bin
-         .\C:\ProgramData\chocolatey\bin\dolt version
+        run: Test-Package $Install
       - name: Dolt Version
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: C:\ProgramData\chocolatey\lib\dolt version
-      - name: Test Package Uninstaller
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        working-directory: ./dolt
-        run: choco uninstall dolt
-        
+        run: |
+          refreshenv
+          $env:Path += 'C:\Program Files\Dolt\bin\;'
+          dolt version
+
       # - name: Test Package Uninstaller
       #   if: ${{ github.event_name == 'workflow_dispatch' }}
       #   working-directory: ./dolt
