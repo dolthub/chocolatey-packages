@@ -4,7 +4,7 @@
   <metadata>
     <id>dolt</id>
     <version>0.24.2</version>
-    <title>Dolt 0.24.2</title>
+    <title>Dolt</title>
     <owners>chocolatey</owners>
     <authors>DoltHub</authors>
     <licenseUrl>https://github.com/dolthub/dolt/blob/main/LICENSE</licenseUrl>
