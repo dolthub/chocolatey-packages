@@ -25,6 +25,7 @@ jobs:
         working-directory: ./dolt
         run: |
           ./update.ps1
+          ls .
         env:
           au_Push: 'false'
           VERSION: ${{ github.event.inputs.version }}
@@ -44,6 +45,7 @@ jobs:
           cwd: "."
       - name: Push Package to Chocolatey
         run: Push-Package
+        working-directory: ./dolt
         env:
           api_key: ${{ secrets.CHOCO_API_KEY }}
   winget-bump-rd:
@@ -61,6 +63,7 @@ jobs:
         working-directory: ./dolt
         run: |
           ./update.ps1
+          ls .
         env:
           au_Push: 'false'
           VERSION: ${{ github.event.client_payload.version }}
@@ -73,12 +76,15 @@ jobs:
           $env:Path += ';C:\Program Files\Dolt\bin\'
           & 'C:\Program Files\Dolt\bin\dolt.exe' version
           dolt version
+      - name: Push Package to Chocolatey
+        run: |
+          ls .
+          Push-Package
+        working-directory: ./dolt
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
       - uses: EndBug/add-and-commit@v7
         with:
           message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.client_payload.version }}"
           add: "."
           cwd: "."
-      - name: Push Package to Chocolatey
-        run: Push-Package
-        env:
-          api_key: ${{ secrets.CHOCO_API_KEY }}
