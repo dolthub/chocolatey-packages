@@ -11,10 +11,10 @@ on:
         required: false
         default: 'false'
   repository_dispatch:
-    types: [ bump-choco ]
+    types: [ bump-chocolatey ]
 
 jobs:
-  winget-bump-wd:
+  chocolatey-bump-wd:
     if: ${{ github.event_name == 'workflow_dispatch' }}
     name: Bump Dolt Chocolately
     runs-on: windows-2019
@@ -52,7 +52,7 @@ jobs:
         env:
           api_key: ${{ secrets.CHOCO_API_KEY }}
           au_Force: ${{ github.event.inputs.force }}
-  winget-bump-rd:
+  chocolatey-bump-rd:
     if: ${{ github.event_name == 'repository_dispatch' }}
     name: Bump Dolt Chocolately
     runs-on: windows-2019
