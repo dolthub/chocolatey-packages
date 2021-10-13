@@ -14,8 +14,26 @@ on:
     types: [ bump-chocolatey ]
 
 jobs:
-  chocolatey-bump-wd:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+  get-version:
+    name: Get Version
+    runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Get version
+        id: get_version
+        run: |
+          version=""
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]
+          then
+            version="${{ github.event.client_payload.version }}"
+          else
+            version="${{ github.event.inputs.version }}"
+          fi
+          echo "::set-output name=version::$version"
+
+  chocolatey-bump:
+    needs: get-version
     name: Bump Dolt Chocolately
     runs-on: windows-2019
     defaults:
@@ -32,7 +50,7 @@ jobs:
         env:
           au_Push: 'false'
           au_Force: ${{ github.event.inputs.force }}
-          VERSION: ${{ github.event.inputs.version }}
+          VERSION: ${{ needs.get-version.outputs.version }}
       - name: Test Package Installer
         working-directory: ./dolt
         run: Test-Package $Install
@@ -43,7 +61,7 @@ jobs:
           dolt version
       - uses: EndBug/add-and-commit@v7
         with:
-          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.inputs.version }}"
+          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ needs.get-version.outputs.version }}"
           add: "."
           cwd: "."
       - name: Push Package to Chocolatey
@@ -52,39 +70,3 @@ jobs:
         env:
           api_key: ${{ secrets.CHOCO_API_KEY }}
           au_Force: ${{ github.event.inputs.force }}
-  chocolatey-bump-rd:
-    if: ${{ github.event_name == 'repository_dispatch' }}
-    name: Bump Dolt Chocolately
-    runs-on: windows-2019
-    defaults:
-      run:
-        shell: powershell
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install AU
-        run: cinst au
-      - name: Build Package
-        working-directory: ./dolt
-        run: |
-          ./update.ps1
-        env:
-          au_Push: 'false'
-          VERSION: ${{ github.event.client_payload.version }}
-      - name: Test Package Installer
-        working-directory: ./dolt
-        run: Test-Package $Install
-      - name: Dolt Version
-        run: |
-          refreshenv
-          $env:Path += ';C:\Program Files\Dolt\bin\'
-          dolt version
-      - uses: EndBug/add-and-commit@v7
-        with:
-          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ github.event.client_payload.version }}"
-          add: "."
-          cwd: "."
-      - name: Push Package to Chocolatey
-        run: Push-Package
-        working-directory: ./dolt
-        env:
-          api_key: ${{ secrets.CHOCO_API_KEY }}
