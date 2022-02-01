@@ -46,7 +46,11 @@ jobs:
       - name: Build Package
         working-directory: ./dolt
         run: |
-          $au_Force = $true; ./update.ps1
+          if ($env:au_Force -eq 'true') {
+              $au_Force = $true; ./update.ps1
+          } else {
+              ./update.ps1
+          }
           cat dolt.nuspec
         env:
           au_Push: ${{ github.event.inputs.force }}
@@ -60,14 +64,14 @@ jobs:
           refreshenv
           $env:Path += ';C:\Program Files\Dolt\bin\'
           dolt version
-      # - uses: EndBug/add-and-commit@v7
-      #   with:
-      #     message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ needs.get-version.outputs.version }}"
-      #     add: "."
-      #     cwd: "."
-      # - name: Push Package to Chocolatey
-      #   run: Push-Package
-      #   working-directory: ./dolt
-      #   env:
-      #     api_key: ${{ secrets.CHOCO_API_KEY }}
-      #     au_Force: ${{ github.event.inputs.force }}
+      - uses: EndBug/add-and-commit@v7
+        with:
+          message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ needs.get-version.outputs.version }}"
+          add: "."
+          cwd: "."
+      - name: Push Package to Chocolatey
+        run: Push-Package
+        working-directory: ./dolt
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
+          au_Force: ${{ github.event.inputs.force }}
