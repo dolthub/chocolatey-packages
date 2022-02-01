@@ -13,7 +13,7 @@
     <docsUrl>https://docs.dolthub.com/</docsUrl>
     <mailingListUrl>https://discord.com/invite/RFwfYpu</mailingListUrl>
     <bugTrackerUrl>https://github.com/dolthub/dolt/issues</bugTrackerUrl>
-    <iconUrl>https://ghcdn.rawgit.org/dolthub/dolt/main/docs/dolt_logo.svg</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/dolthub/dolt/main/docs/Dolt-Logo%403x.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
 Dolt is the true Git for data experience in a SQL database, providing version control for schema and cell-wise for data, all optimized for collaboration.
