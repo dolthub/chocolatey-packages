@@ -64,14 +64,19 @@ jobs:
           refreshenv
           $env:Path += ';C:\Program Files\Dolt\bin\'
           dolt version
+      - name: Push Package to Chocolatey
+        run: |
+          if ($env:au_Force -eq 'true') {
+              $au_Force = $true; Push-Package
+          } else {
+              Push-Package
+          }
+        working-directory: ./dolt
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
+          au_Force: ${{ github.event.inputs.force }}
       - uses: EndBug/add-and-commit@v7
         with:
           message: "[ga-bump-dolt-chocolatey] Bumping Dolt on Chocolatey ${{ needs.get-version.outputs.version }}"
           add: "."
           cwd: "."
-      - name: Push Package to Chocolatey
-        run: Push-Package
-        working-directory: ./dolt
-        env:
-          api_key: ${{ secrets.CHOCO_API_KEY }}
-          au_Force: ${{ github.event.inputs.force }}
