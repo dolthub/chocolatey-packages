@@ -48,7 +48,7 @@ jobs:
         run: |
           ./update.ps1
         env:
-          au_Push: 'false'
+          au_Push: ${{ github.event.inputs.force }}
           au_Force: ${{ github.event.inputs.force }}
           VERSION: ${{ needs.get-version.outputs.version }}
       - name: Test Package Installer
