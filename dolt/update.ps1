@@ -12,6 +12,7 @@ function global:au_SearchReplace {
       "(?i)(^\s*checksumType\s*=\s*)('.*')" = "`$1'$($Latest.ChecksumType64)'"
     }
     ".\dolt.nuspec" = @{
+      "\<version\>.+" = "<version>$($Latest.Version)</version>"
       "\<releaseNotes\>.+" = "<releaseNotes>$($Latest.ReleaseNotes)</releaseNotes>"
     }
   }

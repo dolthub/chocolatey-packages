@@ -6,7 +6,7 @@ $packageArgs = @{
   softwareName   = 'dolt'
 
   checksum       = ''
-  checksumType   = ''
+  checksumType   = 'sha256'
   url            = ''
 
   silentArgs     = '/quiet'
