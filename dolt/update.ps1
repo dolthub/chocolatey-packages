@@ -20,11 +20,7 @@ function global:au_SearchReplace {
 
 # this actually just gets the specific version, not the latest release
 function global:au_GetLatest {
-  $download_page = Invoke-WebRequest -UseBasicParsing -Uri $releases
-
-  $re    = '\.msi$'
-  $url   = $download_page.links | ? href -match $re | select -First 1 -expand href
-
+  $url   = "/dolthub/dolt/releases/download/v$version/dolt-windows-amd64.msi"
   @{
     URL64 = $domain + $url
     Version = $version
