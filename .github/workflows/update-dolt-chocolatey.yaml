@@ -35,7 +35,7 @@ jobs:
   chocolatey-bump:
     needs: get-version
     name: Bump Dolt Chocolately
-    runs-on: windows-2019
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
