@@ -5,9 +5,9 @@ $packageArgs = @{
   fileType       = 'MSI'
   softwareName   = 'dolt'
 
-  checksum       = '5bcaa1819aecfaf357374a5a2534bb0617744d9200d9c5f4b0dfa07750fd7c2d'
+  checksum       = '7a60dc9c70e254f88a80c62a50429fc905559b3d0c9ef8ab18e25a7fd2d7aa1b'
   checksumType   = 'sha256'
-  url            = 'https://github.com/dolthub/dolt/releases/download/v1.86.6/dolt-windows-amd64.msi'
+  url            = 'https://github.com/dolthub/dolt/releases/download/v1.87.0/dolt-windows-amd64.msi'
 
   silentArgs     = '/quiet'
   validExitCodes = @(0)
